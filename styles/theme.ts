@@ -1,19 +1,17 @@
 import { toRem } from '../src/utils/toRem';
 
 export const colors = {
-  mainColor: '#F4BA99',
-  broderGray: '#ADAAAA',
-  darkGray: '#5A5A5A',
-  defaultWhite: '#FFFFFF',
-  defaultBlack: '#000000',
-  interviewPurple: '#7871D0',
-  oaBlue: '#9FE4F3',
-  rejectedRed: '#EA4D43',
-  offerGreen: '#00F946',
-  lightGray: '#E1DDDD',
+  mainColor: '#A6D8FD',
+  hoverBlack: '#4D4B4B',
+  buttonHover: '#B6E0FF',
+  buttonRegular: '#67BAF6',
+  superLighBlue: '#DAEFFF'
 };
 
 export const fonts = {
+  Bolded48: `font-size: ${toRem(
+    48,
+  )}; font-weight: 300; font-family: roboto black; line-height: ${toRem(50)};`,
   fontName: {
     H12: `font-size: ${toRem(
       12,
@@ -29,7 +27,7 @@ export const fonts = {
     64,
   )}; font-weight: 300; font-family: comfortaa; line-height: ${toRem(96)};`,
   H700: `font-size: ${toRem(
-    40,
+    48,
   )}; font-weight: 300; font-family: comfortaa; line-height: ${toRem(56)};`,
   H601: `font-size: ${toRem(
     32,

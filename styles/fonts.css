@@ -1,7 +1,33 @@
 @font-face {
     font-family: "comfortaa";
-    src: url("../public/fonts/comforta.ttf") format("truetype");
+    src: url("../public/fonts/Roboto-Thin.ttf") format("truetype");
     font-display: auto;
     font-weight: 300;
     font-style: normal;
   }
+
+  @font-face {
+    font-family: "roboto thin";
+    src: url("../public/fonts/Roboto-Thin.ttf") format("truetype");
+    font-display: auto;
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "roboto Bold";
+    src: url("../public/fonts/Roboto-Bold.ttf") format("truetype");
+    font-display: auto;
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "roboto black";
+    src: url("../public/fonts/Roboto-Black.ttf") format("truetype");
+    font-display: auto;
+    font-weight: 300;
+    font-style: normal;
+  }
+
+
