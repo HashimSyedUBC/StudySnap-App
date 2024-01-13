@@ -14,12 +14,36 @@ const HeaderItem = styled.a`
   color: black;
   text-decoration: none;
   cursor: pointer;
-  &:hover {
-    color: ${colors.hoverBlack}
-  }
   ${fonts.H601}
   font-size: 32px;
+  position: relative; // Required for the pseudo-element
+  transition: color 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+
+    // Creating a moving underline effect
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -5px; // Positioning the underline
+      width: 100%;
+      height: 3px; // Thickness of the underline
+      background-color: ${colors.hoverBlack};
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    &:hover::after {
+      transform: scaleX(1); // Expanding the underline on hover
+    }
+
+    // Optional: Slightly lifting the text on hover
+    transform: translateY(-2px);
+  }
 `;
+
 
 const RightContainer = styled.div`
   display: flex;

@@ -12,6 +12,9 @@ export const fonts = {
   Bolded48: `font-size: ${toRem(
     48,
   )}; font-weight: 300; font-family: roboto black; line-height: ${toRem(50)};`,
+  Bolded28: `font-size: ${toRem(
+    28,
+  )}; font-weight: 300; font-family: roboto black; line-height: ${toRem(50)};`,
   fontName: {
     H12: `font-size: ${toRem(
       12,
