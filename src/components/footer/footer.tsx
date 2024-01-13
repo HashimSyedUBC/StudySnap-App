@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { fonts } from '../../../styles/theme';
+import { colors, fonts } from '../../../styles/theme';
 
 const MainContainer = styled.div`
   width: 1440px;
@@ -69,6 +69,9 @@ const Body = styled.a`
     ${fonts.H400}
     color: black;
     margin-bottom: 24px;
+    &:hover {
+        color: ${colors.hoverBlack}
+    }
 `;
 
  
