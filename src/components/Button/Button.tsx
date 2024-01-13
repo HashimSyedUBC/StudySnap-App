@@ -22,15 +22,15 @@ const StyledButton = styled.button<ButtonProps>`
   align-items: center;
   justify-content: center;
   width: ${(props) => props.width};
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, color 0.3s;
 
   &:hover {
     background-color: ${colors.buttonHover};
+    transform: scale(1.05); // Slightly increase the size of the button
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); // Add a shadow for depth
   }
 
-  svg {
-    margin-left: 0.5rem;
-  }
+ 
 `;
 
 const ContainerWithHorizontalGap = styled.div`
