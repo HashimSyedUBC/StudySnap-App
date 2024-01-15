@@ -9,14 +9,16 @@ interface ButtonProps {
   width: string;
   text: string;
   icon: IconDefinition;
+  onClick: () => void
+  isSubmit?: boolean
 }
 
 // Styled button component
 const StyledButton = styled.button<ButtonProps>`
   background-color: ${colors.buttonRegular};
-  padding: 24px 32px;
+  padding: ${({ isSubmit }) => (isSubmit ? '8px 16px' : '16px 24px')};
+  ${({ isSubmit }) => (isSubmit ? fonts.H400 : fonts.H500)};
   border: none;
-  ${fonts.H500}
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -42,9 +44,9 @@ const ContainerWithHorizontalGap = styled.div`
 `;
 
 // Button component
-const Button: React.FC<ButtonProps> = ({ width, text, icon }) => {
+const Button: React.FC<ButtonProps> = ({ width, text, icon, onClick, isSubmit}) => {
   return (
-    <StyledButton width={width}>
+    <StyledButton width={width} onClick={onClick} isSubmit={isSubmit}>
         <ContainerWithHorizontalGap>
         {text}
       <FontAwesomeIcon icon={icon} />

@@ -57,7 +57,6 @@ const IconStyled = styled(FontAwesomeIcon)`
 const ClickableContainer = styled.a`
   display: flex;
   align-items: center;
-  padding: 0.5rem 1rem;
   border: none;
   gap: 12px;
   cursor: pointer;

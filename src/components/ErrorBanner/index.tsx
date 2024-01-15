@@ -12,7 +12,7 @@ const ErrorBannerWrapper = styled.div<ErrorbannerWrapperProps>`
   max-height: 36px;
   padding: 24px;
   background-color: ${colors.rejectedRed};
-  color: ${colors.defaultWhite};
+  color: white;
   ${fonts.H200};
   display: flex;
   justify-content: center;
@@ -35,7 +35,7 @@ type ErrorBannerProps = {
 }
 
 const StyledIcon = styled.i`
-  color: ${colors.defaultWhite};
+  color: white;
   font-size: 26px;
 `;
 

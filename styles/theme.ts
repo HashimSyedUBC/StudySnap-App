@@ -5,7 +5,9 @@ export const colors = {
   hoverBlack: '#4D4B4B',
   buttonHover: '#B6E0FF',
   buttonRegular: '#67BAF6',
-  superLighBlue: '#DAEFFF'
+  superLighBlue: '#DAEFFF',
+  grey: '#F2F2F2',
+  rejectedRed: '#FF7373'
 };
 
 export const fonts = {
@@ -15,6 +17,9 @@ export const fonts = {
   Bolded28: `font-size: ${toRem(
     28,
   )}; font-weight: 300; font-family: roboto black; line-height: ${toRem(50)};`,
+  Bolded12: `font-size: ${toRem(
+    12,
+  )}; font-weight: 300; font-family: roboto black; line-height: ${toRem(16)};`,
   fontName: {
     H12: `font-size: ${toRem(
       12,
