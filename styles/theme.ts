@@ -7,7 +7,8 @@ export const colors = {
   buttonRegular: '#67BAF6',
   superLighBlue: '#DAEFFF',
   grey: '#F2F2F2',
-  rejectedRed: '#FF7373'
+  rejectedRed: '#FF7373',
+  borderGray: '#7B7B7B',
 };
 
 export const fonts = {
@@ -17,6 +18,9 @@ export const fonts = {
   Bolded28: `font-size: ${toRem(
     28,
   )}; font-weight: 300; font-family: roboto black; line-height: ${toRem(50)};`,
+  Bolded24: `font-size: ${toRem(
+    24,
+  )}; font-weight: 300; font-family: roboto black; line-height: ${toRem(32)};`,
   Bolded12: `font-size: ${toRem(
     12,
   )}; font-weight: 300; font-family: roboto black; line-height: ${toRem(16)};`,
