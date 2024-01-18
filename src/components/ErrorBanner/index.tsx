@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import { colors, fonts } from '../../../styles/theme';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 type ErrorbannerWrapperProps = {
     isVisible: boolean;
@@ -10,21 +12,17 @@ type ErrorbannerWrapperProps = {
 const ErrorBannerWrapper = styled.div<ErrorbannerWrapperProps>`
   width: 100%;
   max-height: 36px;
-  padding: 24px;
+  padding: 24px 24px;
   background-color: ${colors.rejectedRed};
   color: white;
-  ${fonts.H200};
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${fonts.H500};
   z-index: 999;
   opacity: ${props => (props.isVisible ? 1 : 0)};
   transition: opacity 0.3s ease-in-out;
-  margin-bottom: 16px;
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  gap: 24px;
 `;
 
 
@@ -34,9 +32,9 @@ type ErrorBannerProps = {
   isOpen?: boolean;
 }
 
-const StyledIcon = styled.i`
+const StyledIcon = styled(FontAwesomeIcon)`
   color: white;
-  font-size: 26px;
+  font-size: 28px;
 `;
 
 const ErrorBanner: React.FC<ErrorBannerProps> = ({ message, isOpen}) => {
@@ -45,9 +43,8 @@ const ErrorBanner: React.FC<ErrorBannerProps> = ({ message, isOpen}) => {
     <>
       {isOpen && (
         <ErrorBannerWrapper isVisible={isOpen}>
-          <StyledIcon className='fa-solid fa-triangle-exclamation' />
-
           {message}
+          <StyledIcon icon={faExclamationTriangle} />
         </ErrorBannerWrapper>
       )}
     </>
