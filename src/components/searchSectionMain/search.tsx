@@ -123,8 +123,8 @@ const FlexColumnContainer = styled.button`
 
   &:hover {
     transform: translateY(-5px); // Slightly raise the button
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); // Add a shadow for depth
-    border-color: #00A3FF; // Change border color: ;
+    box-shadow: 0 10px 20px rgba(253, 203, 166, 1); // Add a shadow for depth
+    border-color: rgba(253, 203, 166, 1); // Change border color: ;
   }
   width: 260px;
   height: 410px;
