@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { colors, fonts } from '../../../styles/theme';
-import { faFeather } from '@fortawesome/free-solid-svg-icons';
+import { faFeather, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Button from '../Button/Button';
+import router from 'next/router';
 
 const Container = styled.div`
   margin-top: 128px;
@@ -42,7 +44,7 @@ font-size: 32px;
 `;
 
 const BoxShadow = styled.div`
-  width: 388px;
+  width: 380px;
   height: 158px;
   background-color: white;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -52,7 +54,6 @@ const BoxShadow = styled.div`
   gap: 12px;
   align-items: center;
   justify-content: center;
-  min-width: 100%;
   cursor: pointer; // Changes the cursor to indicate clickability
   transition: transform 0.3s ease, box-shadow 0.3s ease; // Smooth transition for hover effect
 
@@ -80,7 +81,15 @@ const CourseSubTitle = styled.span`
   }
 
 `;
+const TabWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
 
+const ButtonContainer2 = styled.div`
+    width: 190px;
+`;
 
 
 
@@ -186,9 +195,15 @@ const courses_mock = [
       
   return (
     <Container>
+        <TabWrapper>
         <Title>
             Your Courses
         </Title>
+
+        <ButtonContainer2 >
+                <Button  text='Back' onClick={() => router.back()} width='100%' icon={faRotateLeft}/>
+        </ButtonContainer2>
+        </TabWrapper>
         <CoursesGrid>
             <Link href="/upload">
             <BoxShadow>

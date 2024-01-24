@@ -11,6 +11,7 @@ interface ButtonProps {
   icon: IconDefinition;
   onClick: () => void
   isSubmit?: boolean
+  disabled?: boolean
 }
 
 // Styled button component
@@ -28,8 +29,12 @@ const StyledButton = styled.button<ButtonProps>`
 
   &:hover {
     background-color: ${colors.buttonHover};
-    transform: scale(1.05); // Slightly increase the size of the button
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); // Add a shadow for depth
+    transform: scale(1.02); // Slightly increase the size of the button
+    box-shadow: 0 5px 15px ${colors.shadowOrange}; // Add a shadow for depth
+  }
+
+  &:disabled {
+    background-color: ${colors.grey};
   }
 
  
@@ -41,12 +46,13 @@ const ContainerWithHorizontalGap = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  gap: 24px;
 `;
 
 // Button component
-const Button: React.FC<ButtonProps> = ({ width, text, icon, onClick, isSubmit}) => {
+const Button: React.FC<ButtonProps> = ({disabled, width, text, icon, onClick, isSubmit}) => {
   return (
-    <StyledButton width={width} onClick={onClick} isSubmit={isSubmit}>
+    <StyledButton disabled={disabled} width={width} onClick={onClick} isSubmit={isSubmit}>
         <ContainerWithHorizontalGap>
         {text}
       <FontAwesomeIcon icon={icon} />

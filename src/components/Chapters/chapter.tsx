@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { colors, fonts } from '../../../styles/theme';
-import { faFeather } from '@fortawesome/free-solid-svg-icons';
-import Link from 'next/link';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/router';
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
+import Button from '../Button/Button';
+import { faList, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
 
 
 const Container = styled.div`
@@ -61,8 +61,8 @@ const Chapter = styled.div<ChapterProps>`
   }
   ${fonts.H500}
   max-width: 250px;
-  background-color: ${props => props.isActive ? colors.mainColor : 'transparent'}; // Active chapter color: ;
-  box-shadow: ${props => props.isActive ? '0px 4px 8px rgba(0, 0, 0, 0.1)' : 'none'};
+  background-color: ${props => props.isActive ? colors.buttonRegular : 'transparent'}; // Active chapter color: ;
+  box-shadow: ${props => props.isActive ? `0px 4px 8px ${colors.shadowOrange}` : 'none'};
   transform: ${props => props.isActive ? 'scale(1.05)' : 'none'};
   transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
 
@@ -96,6 +96,16 @@ const MarkdownContent = styled(ReactMarkdown)`
     ${fonts.SemiBolded20}
   }
 `
+
+const FlexContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 24px;
+`;
+const ButtonContainer2 = styled.div`
+    width: 190px;
+`;
 
 
 
@@ -175,12 +185,16 @@ const testMarkDown2 = `# Lecture 3 - CS 3305A: Process
 - Summarized that 'execl()' / parent process has created a total of 7 child processes with their respective PIDs and parent PIDs (getppid())
 `;
 
+const ButtonContainer = styled.div`
+  margin-top: 110px;
+`;
+
 
 
 
 const chapters = [
     {
-      chapterName: 'Introduction',
+      chapterName: 'Introduction to land and food systems II',
       chapterMarkdown: testMarkDown
     },
     {
@@ -215,7 +229,7 @@ const chapters = [
   
   const Chapters: React.FC = () => {
     const router = useRouter()
-    const courseCode = router.query.courseCode as string;
+    const courseCode = router.query.courseCode as string; //use these to query from backend the course sections
     const courseName = router.query.courseName as string;
     const sectionNumber = parseInt(router.query.sectionNumber as string, 10);
     const [activeChapter, setActiveChapter] = useState(
@@ -228,7 +242,13 @@ const chapters = [
   
     return (
       <Container>
+        <FlexContainer>
         <Title>{courseCode} - {courseName}</Title>
+
+                <ButtonContainer2 >
+                <Button  text='Back' onClick={() => router.back()} width='100%' icon={faRotateLeft}/>
+                </ButtonContainer2>
+             </FlexContainer>
         <Layout>
           <Sidebar>
             {chapters.map((chapter, index) => (
@@ -240,6 +260,11 @@ const chapters = [
                 {chapter.chapterName}
               </Chapter>
             ))}
+            <ButtonContainer>
+              <Link href={`/test?chapterIndex=${chapters.findIndex(chapter => chapter.chapterName === activeChapter.chapterName)}&courseCode=${courseCode}&courseName=${courseName}`}>
+            <Button text={`Chaper Quiz`} width='100%' icon={faList} onClick={() => console.log('')} />
+            </Link>
+            </ButtonContainer>
           </Sidebar>
           <Content>
             <MarkdownContent remarkPlugins={[gfm]}>

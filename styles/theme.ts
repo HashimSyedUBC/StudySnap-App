@@ -11,6 +11,10 @@ export const colors = {
   borderGray: '#7B7B7B',
   courseHover: '#55ABE9',
   shadowOrange: '#fdcba6',
+  success: '#4CAF50', // A crisp, friendly green
+  successBackground: '#E8F5E9', // A very light green
+  error: '#F44336', // A vibrant, noticeable red
+  errorBackground: '#FFEBEE', // A soft red
 };
 
 export const fonts = {

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { colors, fonts } from '../../../styles/theme';
-import { faBook } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/router';
+import Button from '../Button/Button';
 
 const Container = styled.div`
   margin-top: 128px;
@@ -44,7 +45,7 @@ font-size: 32px;
 `;
 
 const BoxShadow = styled.div`
-  width: 388px;
+  width: 380px;
   height: 158px;
   background-color: white;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -63,7 +64,6 @@ const BoxShadow = styled.div`
     color: ${colors.courseHover};
 
   }
-  min-width: 100%;
 `;
 const CourseTitle = styled.span`  
  ${fonts.H550}
@@ -94,6 +94,16 @@ const Tab = styled.div<{ isActive: boolean }>`
     transform: translateY(-4px);
     border: 1px solid black;
   `}
+`;
+
+const ButtonContainer2 = styled.div`
+    width: 190px;
+`;
+
+const TabWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 
@@ -156,6 +166,7 @@ const Sections: React.FC = () => {
                 return (
                     <CoursesGrid>
                         {tests.map((test, index) => (
+                          
                             <BoxShadow key={index}>
                                 <CourseTitle>Chapters {test.testSections}</CourseTitle>
                                 <CourseSubTitle>{test.testName}</CourseSubTitle>
@@ -170,9 +181,16 @@ const Sections: React.FC = () => {
 
     return (
         <Container>
+            <TabWrapper>
             <Title>
                 {courseCode} - {courseName}
             </Title>
+            <ButtonContainer2 >
+                <Button  text='Back' onClick={() => router.back()} width='100%' icon={faRotateLeft}/>
+                </ButtonContainer2>
+            </TabWrapper>
+
+            
             <TabContainer>
                 <Tab isActive={activeTab === 'chapters'} onClick={() => setActiveTab('chapters')}>
                     Sections
@@ -181,7 +199,9 @@ const Sections: React.FC = () => {
                     Mock Exams
                 </Tab>
             </TabContainer>
+              
             {renderContent()}
+            
         </Container>
     );
 };
