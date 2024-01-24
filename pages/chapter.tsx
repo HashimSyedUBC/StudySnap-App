@@ -3,7 +3,7 @@ import Header from '../src/components/Header/header';
 import FooterComponent from '../src/components/footer/footer';
 
 
-export default function YourCourses() {
+export default function ChapterPages() {
 
   return (
     <>
