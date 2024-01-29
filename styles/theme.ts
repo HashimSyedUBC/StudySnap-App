@@ -9,6 +9,8 @@ export const colors = {
   grey: '#F2F2F2',
   rejectedRed: '#FF7373',
   borderGray: '#7B7B7B',
+  defaultBlack: '#000000',
+  defaultWhite: '#FFFFFF'
 };
 
 export const fonts = {

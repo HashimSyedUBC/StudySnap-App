@@ -1,10 +1,14 @@
 import styled from "styled-components";
 import { colors, fonts } from "./theme";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const Page = styled.div`
     display: flex;
 `
-
+export const IconStyled = styled(FontAwesomeIcon)`
+  ${fonts.H700}
+  color: ${colors.mainColor};
+`
 export const LeftSection = styled.div`
     background-color: ${colors.defaultBlack};
     width: 35%;

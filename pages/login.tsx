@@ -1,13 +1,20 @@
-import React from 'react';
 import * as Styled from "../styles/loginStyles"
+import React from 'react';
+import styled from 'styled-components';
+import { colors, fonts} from '/Users/admin/StudySnap-App/styles/theme';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faB, faBook, faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import GoogleLoginButton from "../src/components/GoogleLoginButton"
+
+
+
 export default function Login() {
     return (
         <Styled.Page>
             <Styled.LeftSection>
-                <Styled.MainIcon className='fa-solid fa-list-check' />
+                <Styled.IconStyled icon={faBookOpen} />
                 <Styled.CompanyName>
-                    AppliTrax
+                    StudySnap
                 </Styled.CompanyName>
             </Styled.LeftSection>
             <Styled.RightSection>
