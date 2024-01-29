@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors, fonts} from '../../../styles/theme';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faB, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faB, faBook, faBookOpen } from '@fortawesome/free-solid-svg-icons';
 
 // Styled component for the header container
 const HeaderContainer = styled.header`
@@ -87,7 +87,7 @@ const Header = () => {
     <HeaderContainer>
     <ResponsiveContainer>
         <ClickableContainer>
-            <IconStyled icon={faBook} />
+            <IconStyled icon={faBookOpen} />
             <HeaderItem href="/">StudySnap</HeaderItem>
         </ClickableContainer>
       <RightContainer>
