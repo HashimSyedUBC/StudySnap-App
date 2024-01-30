@@ -9,21 +9,37 @@ export const colors = {
   grey: '#F2F2F2',
   rejectedRed: '#FF7373',
   borderGray: '#7B7B7B',
+  courseHover: '#55ABE9',
+  shadowOrange: '#fdcba6',
+  success: '#4CAF50', // A crisp, friendly green
+  successBackground: '#E8F5E9', // A very light green
+  error: '#F44336', // A vibrant, noticeable red
+  errorBackground: '#FFEBEE', // A soft red
 };
 
 export const fonts = {
   Bolded48: `font-size: ${toRem(
     48,
-  )}; font-weight: 300; font-family: roboto black; line-height: ${toRem(50)};`,
+  )}; font-weight: 300; font-family: roboto bold; line-height: ${toRem(50)};`,
+  Bolded56: `font-size: ${toRem(
+    56,
+  )}; font-weight: 300; font-family: roboto bold; line-height: ${toRem(58)};`,
   Bolded28: `font-size: ${toRem(
     28,
-  )}; font-weight: 300; font-family: roboto black; line-height: ${toRem(50)};`,
+  )}; font-weight: 300; font-family: roboto bold; line-height: ${toRem(50)};`,
+  SemiBolded32: `font-size: ${toRem(
+    32,
+  )}; font-weight: 300; font-family: roboto bold; line-height: ${toRem(34)};`,
   Bolded24: `font-size: ${toRem(
     24,
-  )}; font-weight: 300; font-family: roboto black; line-height: ${toRem(32)};`,
+  )}; font-weight: 300; font-family: roboto bold; line-height: ${toRem(32)};`,
   Bolded12: `font-size: ${toRem(
     12,
-  )}; font-weight: 300; font-family: roboto black; line-height: ${toRem(16)};`,
+  )}; font-weight: 300; font-family: roboto bold; line-height: ${toRem(16)};`,
+  SemiBolded20: `font-size: ${toRem(
+    20,
+  )}; font-weight: 300; font-family: roboto bold; line-height: ${toRem(32)};`,
+  
   fontName: {
     H12: `font-size: ${toRem(
       12,
@@ -47,6 +63,9 @@ export const fonts = {
   H600: `font-size: ${toRem(
     32,
   )}; font-weight: 300; font-family: comfortaa; line-height: ${toRem(48)};`,
+  H550: `font-size: ${toRem(
+    28,
+  )}; font-weight: 300; font-family: comfortaa; line-height: ${toRem(36)};`,
   H500: `font-size: ${toRem(
     24,
   )}; font-weight: 300; font-family: comfortaa; line-height: ${toRem(36)};`,

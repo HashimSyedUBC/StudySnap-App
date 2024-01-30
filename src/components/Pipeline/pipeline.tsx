@@ -30,6 +30,7 @@ const Container = styled.div`
   }
   padding-bottom: 128px;
   border-bottom: 1px ${colors.borderGray} solid ;
+  border-radius: 0px;
 `;
 const ContainerLoad = styled.div`
   margin: 0 auto;
