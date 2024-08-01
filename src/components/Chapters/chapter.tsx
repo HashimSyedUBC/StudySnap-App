@@ -1,101 +1,213 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { colors, fonts } from '../../../styles/theme';
 import { useRouter } from 'next/router';
 import ReactMarkdown from 'react-markdown';
-import gfm from 'remark-gfm';
 import Button from '../Button/Button';
-import { faList, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
-import Link from 'next/link';
-
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
+import rehypeRaw from 'rehype-raw';
+import { AuthContext } from '../../Context/authProvider';
 
 const Container = styled.div`
-  margin-top: 128px;
-  margin-left: 64px;
-  margin-right: 64px;
-  display: flex;
-  flex-direction: column;
-  margin-left:  auto;
-  margin-right: auto;
+  
+  margin: 64px auto;
+  padding: 0 32px;
   max-width: 1080px;
-  border-bottom: 1px solid black;
-  border-radius: 0px;
 
-  @media (min-width: 1920px) {
+  @media (min-width: 1440px) {
     max-width: 1440px;
   }
+
+  @media (min-width: 1920px) {
+    max-width: 1920px;
+  }
+
+
 `;
 
-const Title = styled.span`
+const Header = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 48px;
+`;
+
+const Title = styled.h1`
   ${fonts.Bolded48}
-  margin-bottom: 64px;
+  color: ${colors.primary};
 `;
 
 const Layout = styled.div`
-  display: flex;
-  width: 100%;
-  padding-bottom: 64px;
-`;
-
-const Sidebar = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 20%;
-  padding-right: 24px;
-  background: white; // Adjust the color as needed
-  border-radius: 0px;
-  border-right: 1px solid #e0e0e0; // Adjust the color as needed
-  min-width: 300px;
-`;
-
-interface ChapterProps {
-    isActive: boolean;
-  }
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 48px;
   
-const Chapter = styled.div<ChapterProps>`
-  cursor: pointer;
-  padding: 16px 10px;
-  margin: 5px 0;
-  &:hover {
-    background-color: ${colors.shadowOrange}; // Adjust the hover color as needed
+  @media (max-width: 1080px) {
+    grid-template-columns: 1fr;
   }
-  ${fonts.H500}
-  max-width: 250px;
-  background-color: ${props => props.isActive ? colors.buttonRegular : 'transparent'}; // Active chapter color: ;
-  box-shadow: ${props => props.isActive ? `0px 4px 8px ${colors.shadowOrange}` : 'none'};
-  transform: ${props => props.isActive ? 'scale(1.05)' : 'none'};
-  transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
-
 `;
 
-const Content = styled.div`
-padding-left: 64px;
+const Sidebar = styled.nav`
+  background: ${colors.backgroundLight};
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+`;
+
+const ChapterList = styled.ul`
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+`;
+
+interface ChapterItemProps {
+  isActive: boolean;
+}
+
+const ChapterItem = styled.li<ChapterItemProps>`
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+
+  button {
+    width: 100%;
+    text-align: left;
+    padding: 12px 16px;
+    border: none;
+    background-color: ${props => props.isActive ? colors.primary : 'transparent'};
+    color: ${props => props.isActive ? colors.white : colors.text};
+    border-radius: 8px;
+    cursor: pointer;
+    ${fonts.H500}
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: ${props => props.isActive ? colors.primary : colors.shadowOrange};
+      transform: translateY(-2px);
+    }
+  }
+`;
+
+const Content = styled.main`
+  background: ${colors.white};
+  border-radius: 12px;
+  padding: 32px;
+  padding-top: 0px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 `;
 
 const MarkdownContent = styled(ReactMarkdown)`
-  padding-top: 16px;
   padding-bottom: 16px;
   padding-right: 16px;
-  max-height: 800px; // Adjust to the height you want
-  overflow-y: auto; // Will show scrollbar when content overflows   
-    & h1 {
-    margin-top: -10px;
-    color: black;
+  max-height: 800px;
+  overflow-y: auto;
+
+ 
+
+  & h1 {
+    color: ${colors.primary};
     ${fonts.SemiBolded32}
+    border-bottom: 2px solid ${colors.primary};
+    padding-bottom: 0.3em;
+    margin-top: -0px;
   }
+
   & h2 {
-    color: black;
+    color: ${colors.secondary};
     ${fonts.Bolded28}
   }
+
+  & h3 {
+    color: ${colors.tertiary};
+    ${fonts.SemiBolded24}
+  }
+
   & p {
-    color: black;
-    ${fonts.Bolded24}
+    color: ${colors.text};
+    ${fonts.Bolded20}
+    line-height: 1.6;
+    margin-bottom: 1em;
   }
+
+  & ul, & ol {
+    margin-bottom: 1em;
+    padding-left: 2em;
+  }
+
   & li {
-    color: black;
-    ${fonts.SemiBolded20}
+    color: ${colors.text};
+    ${fonts.SemiBolded18}
+    margin-bottom: 0.5em;
   }
-`
+
+  & img {
+    max-width: 100%;
+    height: auto;
+    margin: 1em 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+
+  & blockquote {
+    border-left: 4px solid ${colors.primary};
+    padding-left: 1em;
+    margin: 1em 0;
+    font-style: italic;
+    color: ${colors.textLight};
+  }
+
+  & code {
+    background-color: ${colors.codeBackground};
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  & pre {
+    background-color: ${colors.codeBackground};
+    padding: 1em;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin: 1em 0;
+  }
+
+  & table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1em 0;
+  }
+
+  & th, & td {
+    border: 1px solid ${colors.border};
+    padding: 0.5em;
+    text-align: left;
+  }
+
+  & th {
+    background-color: ${colors.tableHeader};
+  }
+
+  & p, & li {
+    line-height: 1.6;
+  }
+
+  & ul ul, & ol ol, & ul ol, & ol ul {
+    padding-left: 1.5em;
+    margin-top: 0.5em;
+  }
+
+  /* Add this new styling for bold text */
+  & strong {
+    ${fonts.actual_bold}
+  }
+
+  & h1, & h2, & h3, & h4, & h5, & h6 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    ${fonts.actual_bold}
+  }
+`;
 
 const FlexContainer = styled.div`
   display: flex;
@@ -106,174 +218,93 @@ const FlexContainer = styled.div`
 const ButtonContainer2 = styled.div`
     width: 190px;
 `;
+interface Chapter {
+  chapterName: string;
+  chapterNumber: number;
+  chapterMarkdown: string;
+}
+
+const Chapters: React.FC = () => {
+  const router = useRouter();
+  const courseCode = router.query.courseCode as string;
+  const courseName = router.query.courseName as string;
+  const [chapters, setChapters] = useState<Chapter[]>([]);
+  const [activeChapter, setActiveChapter] = useState<Chapter | null>(null);
+
+  const authContext = useContext(AuthContext);
+
+  if (!authContext) {
+    throw new Error('AuthContext must be used within an AuthProvider');
+  }
+
+  const {isLoggedIn } = authContext;
+
+  if (!isLoggedIn) {
+    router.push("/loginSignup")
+  }
 
 
+  useEffect(() => {
+    if (courseName) {
+      fetch(`/api/chapter?courseCode=${encodeURIComponent(courseCode)}`)
+        .then((res) => res.json())
+        .then((data: any) => {
+          setChapters(data.chapters);
+          if (data.chapters && data.chapters.length > 0) {
+            setActiveChapter(data.chapters[0]);
+          }
+        })
+        .catch((error) => {
+          console.error('Failed to fetch chapters:', error);
+        });
+    }
+  }, [courseName]);
 
+  const handleChapterClick = (chapterIndex: number) => {
+    setActiveChapter(chapters[chapterIndex]);
+  };
 
-
-const testMarkDown = `# Lecture 1_b - CS 3305A: Introduction to Operating Systems: A Historical Perspective
-
-## Operating System Definition
-
-- Operating System (OS) is the software layer between user applications and hardware.
-- Its function is to manage and optimize the hardware resources.
-- Examples include Windows, Mac OS, Linux, iOS, Android, Blackberry, TinyOS.
-
-## Four Pillars of Operating Systems
-
-- **Process Management**
-- **Memory Management**
-- **Storage Management**
-- **File Management**
-
-## Historical Overview of Operating Systems
-
-**First Generation (1945-1955)**
-
-- Direct Input method was used: one job run at a time.
-- No need for an operating system.
-
-**Second Generation (1955-1965)**
-
-- Introduction of Batch Systems where multiple programs were written on paper or assembly.
-- IBM’s OS/360 was an example of OS for this generation.
-
-**Third Generation (1965-1980)**
-
-- Introduction of Integrated Circuits (IC) and Multiprogramming, allowing several jobs to be active at once.
-
-**Fourth Generation (1980- present)**
- 
-- Marked by the introduction of Personal Computers.
-- Rise of Microsoft and MS-DOS which was originally called Disk Operating System (DOS).
-- Apple’s Macintosh introduced the first Graphical user interface (GUI) in 1984.
-
-## Special Mention: UNIX
-
-- MULTICS, the first large timesharing OS, led to the development of UNIX.
-- UNIX was an open-source project which led to System V (AT&T) and BSD (Berkeley Software Distribution)
-
-## MINIX and Linux
-
-- After the release of UNIX, Andrew Tanenbaum created a structurally improved UNIX-compatible OS called MINIX or mini-Unix.
-- A Finnish student, Linus Torvalds, modified MINIX to create his own OS Linux, marking a significant success of the open source movement.
-
-**Next Lecture: Child and Parent processes**`;
-const testMarkDown2 = `# Lecture 3 - CS 3305A: Process
-
-## Fork() Example
-- Discussion of a code example involving the 'fork()' command
-- The output of the example was unpredictable as the swapping between parent and child process depends on machine load and process scheduling
-
-## Fork() Possible Outputs
-- Multiple potential outputs from the 'fork()' command sequence were provided and discussed for a clearer understanding
-
-## Execution
-- Here, the focus was on how processes share CPU and how the output is nondeterministic, i.e., you cannot determine output merely by looking at the code
-
-## Execl()
-- Discussed the 'execl()' system call, noting that it replaces a process with a loaded program, including its associated memory image
-- Pointed out that, 'execl()' doesn't return on success, while it returns -1 on failure
-
-## Fork() and Execl() Relation
-- The lecture further proceeded with an example program illustrating the use of 'execl()' together 
-- The key takeaway was understanding that 'execl()' overlays a new program on the existing process and the child won't return to the old program unless the operation fails
-
-## Multiple Forks
-- The number of processes created in a program with multiple 'execl()' calls was examined
-- Discussed in detail, how the internal execution flow works when consecutive 'execl()' calls are made and how many processes are created with different PIDs
-- Summarized that 'execl()' / parent process has created a total of 7 child processes with their respective PIDs and parent PIDs (getppid())
-`;
-
-const ButtonContainer = styled.div`
-  margin-top: 110px;
-`;
-
-
-
-
-const chapters = [
-    {
-      chapterName: 'Introduction to land and food systems II',
-      chapterMarkdown: testMarkDown
-    },
-    {
-      chapterName: 'Chapter 1',
-      chapterMarkdown: testMarkDown2
-    },
-    {
-        chapterName: 'Chapter 2',
-        chapterMarkdown: testMarkDown
-      },
-      {
-        chapterName: 'Chapter 3',
-        chapterMarkdown: testMarkDown2
-      },
-      {
-        chapterName: 'Chapter 4',
-        chapterMarkdown: testMarkDown
-      },
-      {
-        chapterName: 'Chapter 5',
-        chapterMarkdown: testMarkDown2
-      },
-      {
-        chapterName: 'Chapter 6',
-        chapterMarkdown: testMarkDown
-      },
-      {
-        chapterName: 'Chapter 7',
-        chapterMarkdown: testMarkDown2
-      },
-  ];
-  
-  const Chapters: React.FC = () => {
-    const router = useRouter()
-    const courseCode = router.query.courseCode as string; //use these to query from backend the course sections
-    const courseName = router.query.courseName as string;
-    const sectionNumber = parseInt(router.query.sectionNumber as string, 10);
-    const [activeChapter, setActiveChapter] = useState(
-        !isNaN(sectionNumber) && chapters[sectionNumber] ? chapters[sectionNumber] : chapters[0]
-      );
-
-    const handleChapterClick = (chapterIndex: number) => {
-      setActiveChapter(chapters[chapterIndex]);
-    };
-  
-    return (
-      <Container>
-        <FlexContainer>
+   return (
+    <Container>
+      <Header>
         <Title>{courseCode} - {courseName}</Title>
-
-                <ButtonContainer2 >
-                <Button  text='Back' onClick={() => router.back()} width='100%' icon={faRotateLeft}/>
-                </ButtonContainer2>
-             </FlexContainer>
-        <Layout>
-          <Sidebar>
+        <Button 
+          text='Back' 
+          onClick={() => router.back()} 
+          icon={faArrowLeft}
+          width="7%"
+        />
+      </Header>
+      <Layout>
+        <Sidebar>
+          <ChapterList>
             {chapters.map((chapter, index) => (
-              <Chapter
+              <ChapterItem
                 key={index}
-                isActive={chapter.chapterName === activeChapter.chapterName}
-                onClick={() => handleChapterClick(index)}
+                isActive={chapter.chapterName === activeChapter?.chapterName}
               >
-                {chapter.chapterName}
-              </Chapter>
+                <Button
+                  text={chapter.chapterName}
+                  onClick={() => handleChapterClick(index)}
+                  width="100%"
+                />
+              </ChapterItem>
             ))}
-            <ButtonContainer>
-              <Link href={`/test?chapterIndex=${chapters.findIndex(chapter => chapter.chapterName === activeChapter.chapterName)}&courseCode=${courseCode}&courseName=${courseName}`}>
-            <Button text={`Chaper Quiz`} width='100%' icon={faList} onClick={() => console.log('')} />
-            </Link>
-            </ButtonContainer>
-          </Sidebar>
-          <Content>
-            <MarkdownContent remarkPlugins={[gfm]}>
+          </ChapterList>
+        </Sidebar>
+        <Content>
+          {activeChapter && (
+            <MarkdownContent
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeHighlight, rehypeRaw]}
+            >
               {activeChapter.chapterMarkdown}
             </MarkdownContent>
-          </Content>
-        </Layout>
-      </Container>
-    );
-  };
+          )}
+        </Content>
+      </Layout>
+    </Container>
+  );
+};
 
 export default Chapters;

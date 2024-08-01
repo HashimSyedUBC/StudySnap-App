@@ -4,7 +4,7 @@ import { colors, fonts } from '../../../styles/theme';
 import {useDropzone} from 'react-dropzone'
 import TextInput from '../TextInput/TextInput';
 import Button from '../Button/Button';
-import { faChevronRight, faRotateBack, faFileCirclePlus,faFilePdf, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faArrowLeft, faFileCirclePlus,faFilePdf, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ErrorBanner from '../ErrorBanner';
 import Spinner from '../Spinner/Spinner';
@@ -432,7 +432,7 @@ const Pipeline: React.FC = () => {
           }
           
           <ButtonContainer>
-          <Button isSubmit text="Back" icon={faRotateBack} onClick={HandleBack} width="120px"/>
+          <Button isSubmit text="Back" icon={faArrowLeft} onClick={HandleBack} width="120px"/>
 
             <Button isSubmit text={step == 3 ? "Generate Notes" : "Next"} icon={faChevronRight} onClick={HandleNextGen} width={step == 3 ? "220px" : "135px"}/>
           </ButtonContainer>

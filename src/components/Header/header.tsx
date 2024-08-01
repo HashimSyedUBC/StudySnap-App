@@ -1,34 +1,36 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { colors, fonts} from '../../../styles/theme';
+import { colors, fonts } from '../../../styles/theme';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faB, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faBook } from '@fortawesome/free-solid-svg-icons';
+import { AuthContext } from '../../Context/authProvider';
 
-// Styled component for the header container
 const HeaderContainer = styled.header`
   background-color: ${colors.mainColor};
+  width: 100%;
 `;
 
-// Styled component for the logo and buttons
 const HeaderItem = styled.a`
   color: black;
   text-decoration: none;
   cursor: pointer;
   ${fonts.H601}
-  font-size: 32px;
-  position: relative; // Required for the pseudo-element
+  font-size: 24px;
+  position: relative;
   transition: color 0.3s ease, transform 0.3s ease;
 
-  &:hover {
+  @media (min-width: 768px) {
+    font-size: 32px;
+  }
 
-    // Creating a moving underline effect
+  &:hover {
     &::after {
       content: '';
       position: absolute;
       left: 0;
-      bottom: -5px; // Positioning the underline
+      bottom: -5px;
       width: 100%;
-      height: 3px; // Thickness of the underline
+      height: 3px;
       background-color: ${colors.hoverBlack};
       transform: scaleX(0);
       transform-origin: left;
@@ -36,72 +38,99 @@ const HeaderItem = styled.a`
     }
 
     &:hover::after {
-      transform: scaleX(1); // Expanding the underline on hover
+      transform: scaleX(1);
     }
 
-    // Optional: Slightly lifting the text on hover
     transform: translateY(-2px);
   }
 `;
 
-
 const RightContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 64px;
+  gap: 32px;
+
+  @media (min-width: 768px) {
+    gap: 64px;
+  }
 `;
 
 const IconStyled = styled(FontAwesomeIcon)`
   ${fonts.H700}
-`
+`;
+
 const ClickableContainer = styled.a`
   display: flex;
   align-items: center;
   border: none;
-  gap: 12px;
+  gap: 8px;
   cursor: pointer;
   ${fonts.H601}
   &:hover {
     color: ${colors.hoverBlack};
   }
+
+  @media (min-width: 768px) {
+    gap: 12px;
+  }
 `;
 
-
 const ResponsiveContainer = styled.div`
-  height: 128px;
-  max-width: 1440px;
+  height: 80px;
   width: 100%;
+  max-width: 1080px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
-  @media (max-width: 1920px) {
-    max-width: 1080px;
+  padding: 0 16px;
+
+  @media (min-width: 768px) {
+    height: 128px;
+  }
+
+  @media (min-width: 1440px) {
+    max-width: 1440px;
+  }
+
+  @media (min-width: 1920px) {
+    max-width: 1920px;
   }
 `;
-//replace false with the state that determines if user is logged in or not
 
 const Header = () => {
+  const authContext = useContext(AuthContext);
+  if (!authContext) {
+    throw new Error('AuthContext must be used within an AuthProvider');
+  }
+  const { isLoggedIn, logout } = authContext;
+
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <HeaderContainer>
-    <ResponsiveContainer>
+      <ResponsiveContainer>
         <ClickableContainer>
-            <IconStyled icon={faBook} />
-            <HeaderItem href="/">StudySnap</HeaderItem>
+          <IconStyled icon={faBook} />
+          <HeaderItem href="/">StudySnap</HeaderItem>
         </ClickableContainer>
-      <RightContainer>
-        <HeaderItem href="/signup">Sign Up</HeaderItem>
-        <HeaderItem href="/login">Log In</HeaderItem>
-      </RightContainer>
-      {false && <RightContainer> 
-        <HeaderItem href="/signup">Search Course</HeaderItem>
-        <HeaderItem href="/login">Your Courses</HeaderItem>
-        <HeaderItem href="/login">User Info</HeaderItem>
-      </RightContainer>}
-    </ResponsiveContainer>
+        <RightContainer>
+          {isLoggedIn ? (
+            <>
+              <HeaderItem href="/">Dashboard</HeaderItem>
+              <HeaderItem onClick={handleLogout}>Log Out</HeaderItem>
+            </>
+          ) : (
+            <>
+              <HeaderItem href="/loginSignup">Sign Up</HeaderItem>
+              <HeaderItem href="/loginSignup">Log In</HeaderItem>
+            </>
+          )}
+        </RightContainer>
+      </ResponsiveContainer>
     </HeaderContainer>
-
   );
 };
 

@@ -3,6 +3,7 @@ import '../styles/fonts.css';
 import type { AppProps } from 'next/app';
 import Script from 'next/script';
 import { createGlobalStyle } from 'styled-components';
+import { AuthProvider } from '../src/Context/authProvider';
 
 const GlobalStyle = createGlobalStyle`
   div {
@@ -16,13 +17,15 @@ const GlobalStyle = createGlobalStyle`
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-    <GlobalStyle />
+      <GlobalStyle />
       <Script
         src="https://kit.fontawesome.com/2e2ed8649f.js"
         crossOrigin="anonymous"
         async
       />
-      <Component {...pageProps} />
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
     </>
   );
 }

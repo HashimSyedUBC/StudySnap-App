@@ -1,17 +1,13 @@
-import React, { useEffect } from 'react';
+import YourCoursesMain from '../src/components/CoursesBox/courses';
 import Header from '../src/components/Header/header';
-import FirstSectionMain from '../src/components/SectionOneMain/section';
-import NoteComponent from '../src/components/searchSectionMain/search';
 import FooterComponent from '../src/components/footer/footer';
 
 
-export default function Home() {
-
+export default function YourCourses() {
   return (
     <>
     <Header />
-    <FirstSectionMain />
-    <NoteComponent />
+    <YourCoursesMain />
     <FooterComponent />
     </>
   );

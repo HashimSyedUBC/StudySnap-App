@@ -1,50 +1,65 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { colors, fonts } from '../../../styles/theme';
-import { faFeather, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft  } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from '../Button/Button';
-import router from 'next/router';
+import router, { useRouter } from 'next/router';
+import { Course } from '../../../backend/readCourses';
+import { AuthContext } from '../../Context/authProvider';
 
 const Container = styled.div`
   margin-top: 128px;
   padding-bottom: 128px;
-  margin-left: 64px;
-  margin-right: 64px;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   flex-direction: column;
-  margin-left:  auto;
-  margin-right: auto;
   max-width: 1080px;
   border-bottom: 1px solid black;
   border-radius: 0px;
+  padding-left: 16px;
+  padding-right: 16px;
 
-  @media (min-width: 1920px) {
+  @media (min-width: 1440px) {
     max-width: 1440px;
   }
 
- 
+  @media (min-width: 1920px) {
+    max-width: 1920px;
+  }
 `;
 
 const CoursesGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 64px 74px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 32px;
   max-width: 100%;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    grid-gap: 48px;
+  }
+
+  @media (min-width: 1440px) {
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    grid-gap: 64px 74px;
+  }
 `;
 
 const Title = styled.span`
   ${fonts.Bolded48}
+  font-size: 44px;
   margin-bottom: 64px;
 `;
 
 const IconStyled = styled(FontAwesomeIcon)`
-font-size: 32px;
+  font-size: 32px;
 `;
 
 const BoxShadow = styled.div`
-  width: 380px;
+  width: 100%;
   height: 158px;
   background-color: white;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -54,184 +69,84 @@ const BoxShadow = styled.div`
   gap: 12px;
   align-items: center;
   justify-content: center;
-  cursor: pointer; // Changes the cursor to indicate clickability
-  transition: transform 0.3s ease, box-shadow 0.3s ease; // Smooth transition for hover effect
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
-    transform: translateY(-5px); // Slightly raise the box on hover
-    box-shadow: 0px 6px 12px rgba(253, 203, 166, 1); // Enhanced shadow with color #FDCBA6
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 12px rgba(253, 203, 166, 1);
     color: ${colors.courseHover};
-
   }
 `;
-const CourseTitle = styled.span`  
- ${fonts.H500}
-    @media (min-width: 1920px) {
-        ${fonts.H600}
 
+const CourseTitle = styled.span`  
+  ${fonts.H500}
+  @media (min-width: 1920px) {
+    ${fonts.H600}
   }
 `;
 
 const CourseSubTitle = styled.span`
- ${fonts.H300}
-
- @media (min-width: 1920px) {
-        ${fonts.H400}
-
+  ${fonts.H300}
+  @media (min-width: 1920px) {
+    ${fonts.H400}
   }
-
 `;
+
 const TabWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
+  flex-wrap: wrap;
+  gap: 16px;
 `;
 
 const ButtonContainer2 = styled.div`
-    width: 190px;
+  width: 190px;
 `;
 
 
-
 const YourCoursesMain: React.FC = () => {
-const courses_mock = [
-    {
-        courseName: 'Introduction to Computer Science',
-        courseCode: 'CS101',
-        institution: 'University of Technology',
-        courseArea: 'Computer Science',
-        courseDate: '2022-09-01',
-        courseLevel: 'Beginner',
-    },
-    {
-        courseName: 'Advanced Mathematics',
-        courseCode: 'MATH301',
-        institution: 'State College',
-        courseArea: 'Mathematics',
-        courseDate: '2023-01-15',
-        courseLevel: 'Advanced',
-    },
-    {
-        courseName: 'World History',
-        courseCode: 'HIST201',
-        institution: 'City University',
-        courseArea: 'History',
-        courseDate: '2022-09-10',
-        courseLevel: 'Intermediate',
-    },
-    {
-        courseName: 'Organic Chemistry',
-        courseCode: 'CHEM120',
-        institution: 'National University',
-        courseArea: 'Chemistry',
-        courseDate: '2023-02-20',
-        courseLevel: 'Intermediate',
-    },
-    {
-        courseName: 'Business Management',
-        courseCode: 'BUS101',
-        institution: 'Global Business School',
-        courseArea: 'Business',
-        courseDate: '2022-08-05',
-        courseLevel: 'Beginner',
-    },
-    {
-        courseName: 'Principles of Economics',
-        courseCode: 'ECON100',
-        institution: 'Economics Institute',
-        courseArea: 'Economics',
-        courseDate: '2023-03-11',
-        courseLevel: 'Beginner',
-    },
-    {
-        courseName: 'Social Psychology',
-        courseCode: 'PSYCH150',
-        institution: 'University of the People',
-        courseArea: 'Psychology',
-        courseDate: '2022-10-17',
-        courseLevel: 'Intermediate',
-    },
-    {
-        courseName: 'Environmental Science',
-        courseCode: 'ENV200',
-        institution: 'Green Earth College',
-        courseArea: 'Environmental Studies',
-        courseDate: '2023-04-22',
-        courseLevel: 'Intermediate',
-    },
-    {
-        courseName: 'Software Development',
-        courseCode: 'CS300',
-        institution: 'Tech University',
-        courseArea: 'Computer Science',
-        courseDate: '2022-11-29',
-        courseLevel: 'Advanced',
-    },
-    {
-        courseName: 'Graphic Design Fundamentals',
-        courseCode: 'DES110',
-        institution: 'Design Academy',
-        courseArea: 'Design',
-        courseDate: '2022-07-13',
-        courseLevel: 'Beginner',
-    },
-    {
-        courseName: 'Modern Physics',
-        courseCode: 'PHYS210',
-        institution: 'Science Institute',
-        courseArea: 'Physics',
-        courseDate: '2023-05-09',
-        courseLevel: 'Advanced',
-    },
-    {
-        courseName: 'Literary Analysis',
-        courseCode: 'LIT101',
-        institution: 'Arts and Humanities College',
-        courseArea: 'Literature',
-        courseDate: '2022-12-04',
-        courseLevel: 'Beginner',
+
+  const [courses, setCourses] = useState<Course[]>([]);
+  const router = useRouter();
+  const authContext = useContext(AuthContext);
+
+  useEffect(() => {
+    fetch('/api/courses')
+      .then(res => res.json())
+      .then(data => setCourses(data.courses));
+  }, []);
+
+  const handleCourseClick = (course: Course) => {
+    if (!authContext) {
+      throw new Error('AuthContext must be used within an AuthProvider');
     }
-    ];
-      
-  return (
-    <Container>
-        <TabWrapper>
-        <Title>
-            Your Courses
-        </Title>
+    const { isLoggedIn } = authContext;
 
-        <ButtonContainer2 >
-                <Button  text='Back' onClick={() => router.back()} width='100%' icon={faRotateLeft}/>
-        </ButtonContainer2>
-        </TabWrapper>
-        <CoursesGrid>
-            <Link href="/upload">
-            <BoxShadow>
-                <CourseTitle>
-                    Generate New Course
-                </CourseTitle>
-                <IconStyled icon={faFeather}/>
-            </BoxShadow>
-            </Link>
-
-                {
-                    courses_mock.map((course, index) => (
-                        <Link 
-                            href={`/sections?courseCode=${encodeURIComponent(course.courseCode)}&courseName=${encodeURIComponent(course.courseName)}`} 
-                            passHref
-                            key={index} 
-                        >
-                        <BoxShadow key={index}>
-                            <CourseTitle>{course.courseCode}</CourseTitle>
-                            <CourseSubTitle>{course.courseName}</CourseSubTitle>
-                        </BoxShadow>
-                        </Link>
-                    ))
-                }
-
-        </CoursesGrid>
-    </Container>
-  );
+    if (!isLoggedIn) {
+      router.push('/loginSignup');
+    } else {
+      router.push(`/chapter?courseCode=${encodeURIComponent(course.courseCode)}&courseName=${encodeURIComponent(course.courseName)}&coursePath=${encodeURIComponent(course.coursePath)}`);
+    }
+  };
+return (
+  <Container>
+    <TabWrapper>
+      <Title>Avalaible Courses</Title>
+    </TabWrapper>
+    <CoursesGrid>
+      {courses.map((course, index) => (
+       <div key={index} onClick={() => handleCourseClick(course)}>
+          <BoxShadow>
+            <CourseTitle>{course.courseCode}</CourseTitle>
+            <CourseSubTitle>{course.courseName}</CourseSubTitle>
+          </BoxShadow>
+        </div>
+      ))}
+    </CoursesGrid>
+  </Container>
+);
 };
 
 export default YourCoursesMain;
